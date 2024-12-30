@@ -35,7 +35,7 @@ if (!sessionStorage.getItem("score")) {
   sessionStorage.setItem("score", 0);
 } else {
   currentScore = parseInt(sessionStorage.getItem("score"), 10);
-  let scorePercentage = Math.min((currentScore / totalScore) * 100, 100); // Ensure it doesn't exceed 100%
+  let scorePercentage = Math.min((currentScore / totalScore) * 100, 100); // Ensures it doesn't exceed 100%
   gsap.to("#Score", {
     width: `${scorePercentage}%`,
     duration: 1,
@@ -80,7 +80,7 @@ function submitAnswer(answer, characterId) {
   }
 
   sessionStorage.setItem("score", currentScore);
-  let scorePercentage = Math.min((currentScore / totalScore) * 100, 100); // Ensure it doesn't exceed 100%
+  let scorePercentage = Math.min((currentScore / totalScore) * 100, 100); // Ensures it doesn't exceed 100%
   console.log(scorePercentage);
 
   gsap.to("#Score", {
@@ -103,8 +103,6 @@ function submitAnswer(answer, characterId) {
 }
 
 function saveNexit() {
-  console.log(userName);
-  console.log(scorePercentage);
   axios
     .put(`${baseUrl}updateScore`, {
       username: userName,
