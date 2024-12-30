@@ -1,4 +1,5 @@
-const baseUrl = "http://localhost:3001/";
+// const baseUrl = "http://localhost:3001/";
+const baseUrl = "https://bis-server.vercel.app/";
 let userName = localStorage.getItem("UserName");
 
 let totalScore = 50;
