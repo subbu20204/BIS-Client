@@ -1,0 +1,267 @@
+* {
+  font-family: "Press Start 2P", cursive;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #1d1d1d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1.2;
+}
+
+canvas {
+  border: 8px double #000;
+  border-radius: 10px;
+}
+
+h1 {
+  margin: 0;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #ddd;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.option {
+  border: 2px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.option:hover {
+  background-color: #e0f7fa;
+  border-color: #00796b;
+}
+
+.option.selected {
+  background-color: #b2dfdb;
+  border-color: #00796b;
+}
+
+.submit-button {
+  padding: 68px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #00796b;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #004d40;
+}
+
+.container {
+  display: flex;
+  gap: 5px;
+}
+
+#saveNexitContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#saveNexitContent button {
+  font-size: 2rem;
+  color: #fff;
+  background-color: #00796b;
+  border: none;
+  border-radius: 5px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#saveNexitContent button:hover {
+  background-color: #004d40;
+}
+#saveNexit:hover,
+#leaderboard:hover,
+#controls:hover {
+  cursor: pointer;
+}
+
+.saveNexit-container,
+.leaderboard-container,
+.controls-container {
+  background-color: wheat;
+  position: absolute;
+  top: 150px;
+  right: 50px;
+  bottom: 50px;
+  left: 50px;
+  opacity: 0;
+  border: 2px double #000;
+  border-radius: 5px;
+  color: aliceblue;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 10;
+}
+
+#closeSaveNexit,
+#closeLeaderboard,
+#closeControls {
+  background-color: black;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-bottom-left-radius: 10px;
+  border: 1px solid black;
+  padding: 12px;
+  cursor: pointer;
+}
+
+#map {
+  background-color: white;
+  width: 250px;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  border: 4px solid black;
+  padding: 12px;
+}
+
+#Scorebar {
+  background-color: white;
+  width: 258px;
+  height: 30px;
+  position: absolute;
+  top: 100px;
+  left: 50px;
+  border: 4px solid black;
+  margin-top: 5px;
+}
+
+#Score {
+  background-color: green;
+  width: 0%;
+  height: 22px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin-top: 0px;
+}
+
+.helper-buttons {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  display: flex;
+  gap: 20px;
+}
+
+.helper-buttons div {
+  background-color: white;
+  border: 4px solid black;
+  padding: 12px;
+}
+
+#dialogueBox {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  padding: 12px;
+  display: none;
+  cursor: pointer;
+}
+
+.leaderboard-table {
+  display: block;
+  width: 600px;
+  border: double black;
+  font-family: "Arial", sans-serif;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-header {
+  border: 1px solid #ddd;
+  width: 600px;
+  padding: 20px;
+  text-align: center;
+  background-color: #f2f2f2;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.leaderboard-cell {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+  background-color: #fff;
+}
+
+.leaderboard-row:hover .leaderboard-cell {
+  background-color: #e9e9e9;
+  cursor: pointer;
+}
+
+.game-controls {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  width: auto;
+  margin: 20px auto;
+  font-family: "Arial", sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.game-controls h2 {
+  text-align: center;
+  color: #333;
+}
+
+.game-controls ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.game-controls li {
+  margin: 10px 0;
+  color: #444;
+  display: flex;
+  align-items: center;
+}
+
+.game-controls li .key-image {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.game-controls p {
+  margin-top: 20px;
+  color: #555;
+}
+
+.game-controls strong {
+  color: #222;
+}
