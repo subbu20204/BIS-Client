@@ -1,4 +1,5 @@
-const baseUrl = "http://localhost:3001/";
+// const baseUrl = "http://localhost:3000/";
+const baseUrl = "https://bis-server.vercel.app/";
 
 const handleAuth = (event) => {
   event.preventDefault();
