@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "client/Main/**/*",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/",
+        "dest": "/client/Main/main.html"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/client/Main/$1"
+      }
+    ]
+  }
+  
