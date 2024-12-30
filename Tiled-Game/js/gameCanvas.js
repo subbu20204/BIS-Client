@@ -16,7 +16,6 @@ async function fetchLeaderboard() {
     const { success, data } = response.data;
 
     if (success) {
-      console.log(data);
       return data;
     } else {
       alert("Error fetching leaderboard data");
