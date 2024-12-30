@@ -112,7 +112,7 @@ function saveNexit() {
 
       if (success) {
         alert(`Score updated successfully: ${message}`);
-        window.location.href = "../Main/main.html"; // Redirect after successful update
+        window.location.href = "./";
       } else {
         alert(`Error updating score: ${message}`);
       }
