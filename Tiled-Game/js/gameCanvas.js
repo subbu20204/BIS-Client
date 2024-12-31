@@ -114,6 +114,7 @@ function saveNexit() {
         window.location.href = "/";
       } else {
         alert(`Error updating score: ${message}`);
+        window.location.href = "/";
       }
     });
 }
