@@ -34,7 +34,7 @@ if (!sessionStorage.getItem("score")) {
   sessionStorage.setItem("score", 0);
 } else {
   currentScore = parseInt(sessionStorage.getItem("score"), 10);
-  let scorePercentage = Math.min((currentScore / totalScore) * 100, 100); // Ensures it doesn't exceed 100%
+  scorePercentage = Math.min((currentScore / totalScore) * 100, 100); // Ensures it doesn't exceed 100%
   gsap.to("#Score", {
     width: `${scorePercentage}%`,
     duration: 1,
