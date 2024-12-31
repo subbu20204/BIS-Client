@@ -292,8 +292,6 @@ function animate() {
     renderable.draw();
   });
 
-  console.log("hi");
-
   if (isSceneChanging) return;
   player.animate = false;
 
