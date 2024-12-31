@@ -79,8 +79,7 @@ function submitAnswer(answer, characterId) {
   }
 
   sessionStorage.setItem("score", currentScore);
-  let scorePercentage = Math.min((currentScore / totalScore) * 100, 100); // Ensures it doesn't exceed 100%
-  console.log(scorePercentage);
+  scorePercentage = Math.min((currentScore / totalScore) * 100, 100); // Ensures it doesn't exceed 100%
 
   gsap.to("#Score", {
     width: `${scorePercentage}%`,
