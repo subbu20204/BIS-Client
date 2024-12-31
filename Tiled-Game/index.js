@@ -105,7 +105,7 @@ const levels = {
               <div class=\"option\" onclick=\"selectOption(this)\">3. Either Type-1 or Type-2 can be used.</div>
               <div class=\"option\" onclick=\"selectOption(this)\">4. No specific type is required.</div>
             </div><div class=\"submit-bar\">
-              <button class=\"submit-button\" onclick=\"submitAnswer('2. Type-2: Heavy-duty paint.',2272)\">Submit</button>
+              <button class=\"submit-button\" onclick=\"submitAnswer('1. Type-1: Light-duty paint.',2272)\">Submit</button>
             </div></div>`,
           ],
         },
@@ -304,86 +304,6 @@ function animate() {
   } else if (keys.d.pressed && lastKey === "d") {
     handlePlayerMovement("d", { x: -3, y: 0 }, player.sprites.right);
   }
-}
-
-function handlePlayerMovement(direction, offset, sprite) {
-  player.animate = true;
-  player.image = sprite;
-
-  checkForCharacterCollision({
-    characters,
-    player,
-    characterOffset: offset,
-  });
-
-  if (direction === "w" || direction === "s") {
-    if (handleSceneChange(direction)) return;
-  }
-
-  let moving = true;
-  boundaries.forEach((boundary) => {
-    if (
-      rectangularCollision({
-        rectangle1: player,
-        rectangle2: {
-          ...boundary,
-          position: {
-            x: boundary.position.x + offset.x,
-            y: boundary.position.y + offset.y,
-          },
-        },
-      })
-    ) {
-      moving = false;
-    }
-  });
-
-  if (moving) {
-    movables.forEach((movable) => {
-      movable.position.x += offset.x;
-      movable.position.y += offset.y;
-    });
-  }
-}
-
-function handleSceneChange(direction) {
-  let newLevel;
-  if (direction === "w") newLevel = "shop";
-  if (direction === "s") newLevel = "home";
-
-  for (const boundary of scenes) {
-    if (
-      rectangularCollision({
-        rectangle1: player,
-        rectangle2: boundary,
-      })
-    ) {
-      isSceneChanging = true;
-      updateSceneUI(newLevel);
-      return true;
-    }
-  }
-  return false;
-}
-
-function updateSceneUI(newLevel) {
-  document.querySelector("#map").innerHTML = newLevel;
-  document.querySelector("#overlappingDivText").innerHTML = newLevel;
-  gsap.to("#overlappingDiv", {
-    opacity: 1,
-    duration: 0.2,
-    onComplete() {
-      currentLevel = newLevel;
-      player.image = player.sprites.down;
-      gsap.to("#overlappingDiv", {
-        opacity: 0,
-        duration: 1,
-        onComplete() {
-          isSceneChanging = false;
-        },
-      });
-    },
-  });
 }
 
 animate();

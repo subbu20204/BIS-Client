@@ -10,6 +10,86 @@ if (!sessionStorage.getItem("answeredQuestions")) {
   sessionStorage.setItem("answeredQuestions", JSON.stringify({}));
 }
 
+function updateSceneUI(newLevel) {
+  document.querySelector("#map").innerHTML = newLevel;
+  document.querySelector("#overlappingDivText").innerHTML = newLevel;
+  gsap.to("#overlappingDiv", {
+    opacity: 1,
+    duration: 0.2,
+    onComplete() {
+      currentLevel = newLevel;
+      player.image = player.sprites.down;
+      gsap.to("#overlappingDiv", {
+        opacity: 0,
+        duration: 1,
+        onComplete() {
+          isSceneChanging = false;
+        },
+      });
+    },
+  });
+}
+
+function handleSceneChange(direction) {
+  let newLevel;
+  if (direction === "w") newLevel = "shop";
+  if (direction === "s") newLevel = "home";
+
+  for (const boundary of scenes) {
+    if (
+      rectangularCollision({
+        rectangle1: player,
+        rectangle2: boundary,
+      })
+    ) {
+      isSceneChanging = true;
+      updateSceneUI(newLevel);
+      return true;
+    }
+  }
+  return false;
+}
+
+function handlePlayerMovement(direction, offset, sprite) {
+  player.animate = true;
+  player.image = sprite;
+
+  checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: offset,
+  });
+
+  if (direction === "w" || direction === "s") {
+    if (handleSceneChange(direction)) return;
+  }
+
+  let moving = true;
+  boundaries.forEach((boundary) => {
+    if (
+      rectangularCollision({
+        rectangle1: player,
+        rectangle2: {
+          ...boundary,
+          position: {
+            x: boundary.position.x + offset.x,
+            y: boundary.position.y + offset.y,
+          },
+        },
+      })
+    ) {
+      moving = false;
+    }
+  });
+
+  if (moving) {
+    movables.forEach((movable) => {
+      movable.position.x += offset.x;
+      movable.position.y += offset.y;
+    });
+  }
+}
+
 async function fetchLeaderboard() {
   try {
     const response = await axios.get(`${baseUrl}leaderboard`);
