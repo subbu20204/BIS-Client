@@ -1,10 +1,21 @@
-// const baseUrl = "http://localhost:3001/";
-const baseUrl = "https://bis-server.vercel.app/";
-let userName = localStorage.getItem("UserName");
+const baseUrl = config.Server_API;
 
 let totalScore = 50;
 let currentScore, scorePercentage, leaderboardData;
 let selectedOption = null;
+let userName = localStorage.getItem("UserName");
+
+if (!sessionStorage.getItem("score")) {
+  sessionStorage.setItem("score", 0);
+} else {
+  currentScore = parseInt(sessionStorage.getItem("score"), 10);
+  scorePercentage = Math.min((currentScore / totalScore) * 100, 100); // Ensures it doesn't exceed 100%
+  gsap.to("#Score", {
+    width: `${scorePercentage}%`,
+    duration: 1,
+    ease: "power1.out",
+  });
+}
 
 if (!sessionStorage.getItem("answeredQuestions")) {
   sessionStorage.setItem("answeredQuestions", JSON.stringify({}));
@@ -110,16 +121,31 @@ async function fetchLeaderboard() {
   }
 }
 
-if (!sessionStorage.getItem("score")) {
-  sessionStorage.setItem("score", 0);
-} else {
-  currentScore = parseInt(sessionStorage.getItem("score"), 10);
-  scorePercentage = Math.min((currentScore / totalScore) * 100, 100); // Ensures it doesn't exceed 100%
-  gsap.to("#Score", {
-    width: `${scorePercentage}%`,
-    duration: 1,
-    ease: "power1.out",
-  });
+async function renderLeaderboard() {
+  const leaderboardContent = document.querySelector("#leaderboardContent");
+  const data = await fetchLeaderboard(); // Await the leaderboard data
+
+  leaderboardContent.innerHTML = `
+  <table class="leaderboard-table">
+    <thead>
+      <tr>
+        <th class="leaderboard-header">Name</th>
+        <th class="leaderboard-header">Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${data
+        .map(
+          (player) => `
+            <tr class ="leaderboard-row">
+              <td class="leaderboard-cell">${player.Username}</td>
+              <td class="leaderboard-cell">${player.Score}</td>
+            </tr>`
+        )
+        .join("")}
+    </tbody>
+  </table>
+`;
 }
 
 function selectOption(element) {
@@ -243,6 +269,7 @@ document.querySelector("#closeControls").addEventListener("click", () => {
     },
   });
 });
+
 document.querySelector("#saveNexit").addEventListener("click", () => {
   gsap.to(".saveNexit-container", {
     scale: 1,
@@ -288,30 +315,3 @@ document.querySelector("#controls").addEventListener("click", () => {
     },
   });
 });
-
-async function renderLeaderboard() {
-  const leaderboardContent = document.querySelector("#leaderboardContent");
-  const data = await fetchLeaderboard(); // Await the leaderboard data
-
-  leaderboardContent.innerHTML = `
-  <table class="leaderboard-table">
-    <thead>
-      <tr>
-        <th class="leaderboard-header">Name</th>
-        <th class="leaderboard-header">Score</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${data
-        .map(
-          (player) => `
-            <tr class ="leaderboard-row">
-              <td class="leaderboard-cell">${player.Username}</td>
-              <td class="leaderboard-cell">${player.Score}</td>
-            </tr>`
-        )
-        .join("")}
-    </tbody>
-  </table>
-`;
-}

@@ -1,5 +1,33 @@
-// const baseUrl = "http://localhost:3000/";
-const baseUrl = "https://bis-server.vercel.app/";
+const baseUrl = config.Server_API;
+
+const loginPopupButton = document.querySelector(".btn-login-popup");
+const mdloginPopupButton = document.querySelector(".md-btn-login-popup");
+const popupWrapper = document.querySelector(".popup-wrapper");
+const closeIcon = document.querySelector(".icon-close");
+const registerLink = document.querySelector(".register-link");
+const loginLink = document.querySelector(".login-link");
+
+mdloginPopupButton.addEventListener("click", () => {
+  popupWrapper.classList.add("active-popup");
+});
+
+loginPopupButton.addEventListener("click", () => {
+  popupWrapper.classList.add("active-popup");
+});
+
+closeIcon.addEventListener("click", () => {
+  popupWrapper.classList.remove("active-popup");
+});
+
+registerLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  popupWrapper.classList.add("active");
+});
+
+loginLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  popupWrapper.classList.remove("active");
+});
 
 const handleAuth = (event) => {
   event.preventDefault();
@@ -61,29 +89,3 @@ document.getElementById("login-form").addEventListener("submit", handleAuth);
 document
   .getElementById("register-form")
   .addEventListener("submit", handleRegister);
-
-const loginPopupButton = document.querySelector(".btn-login-popup");
-const popupWrapper = document.querySelector(".popup-wrapper");
-const closeIcon = document.querySelector(".icon-close");
-const registerLink = document.querySelector(".register-link");
-const loginLink = document.querySelector(".login-link");
-const loginForm = document.querySelector(".form-box.login");
-const registerForm = document.querySelector(".form-box.register");
-
-loginPopupButton.addEventListener("click", () => {
-  popupWrapper.classList.add("active-popup");
-});
-
-closeIcon.addEventListener("click", () => {
-  popupWrapper.classList.remove("active-popup");
-});
-
-registerLink.addEventListener("click", (e) => {
-  e.preventDefault();
-  popupWrapper.classList.add("active");
-});
-
-loginLink.addEventListener("click", (e) => {
-  e.preventDefault();
-  popupWrapper.classList.remove("active");
-});

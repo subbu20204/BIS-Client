@@ -14,6 +14,11 @@ body {
   background: url("../sub-assets/background.gif") no-repeat center center/cover;
 }
 
+#md-menu,
+#md-menu-container {
+  display: none;
+}
+
 header {
   position: fixed;
   top: 0;

@@ -1,197 +1,187 @@
-<head>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="styles/gameCanvas.css" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
-</head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
 
-<div style="display: inline-block; position: relative">
-  <div
-    id="overlappingDiv"
-    style="
-      background-color: wheat;
-      position: absolute;
-      top: 150px;
-      right: 50px;
-      bottom: 50px;
-      left: 50px;
-      opacity: 0;
-      color: aliceblue;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      z-index: 10;
-    "
-  >
-    <div id="overlappingDivText"></div>
-  </div>
-
-  <canvas id="game"></canvas>
-
-  <div
-    id="characterDialogueBox"
-    style="
-      background-color: white;
-      height: 180px;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border-top: 4px solid black;
-      display: none;
-      padding: 12px;
-    "
-  ></div>
-
-  <div class="saveNexit-container">
-    <div id="closeSaveNexit">
-      <ion-icon name="close" style="font-size: 2em"></ion-icon>
-    </div>
-    <div id="saveNexitContent">
-      <button onclick="saveNexit()">Save & Exit</button>
-    </div>
-  </div>
-
-  <div class="leaderboard-container">
-    <div id="closeLeaderboard">
-      <ion-icon name="close" style="font-size: 2em"></ion-icon>
-    </div>
-    <div id="leaderboardContent"></div>
-  </div>
-
-  <div class="controls-container">
-    <div id="closeControls">
-      <ion-icon name="close" style="font-size: 2em"></ion-icon>
-    </div>
-    <div id="controlsContent">
-      <div class="game-controls">
-        <h2>Game Controls</h2>
-        <ul>
-          <li>
-            <img
-              src="./Controls-img/letter-w.png"
-              alt="W key"
-              class="key-image"
-            />
-            <strong>W key:</strong> Move forward
-          </li>
-          <li>
-            <img
-              src="./Controls-img/letter-a.png"
-              alt="A key"
-              class="key-image"
-            />
-            <strong>A key:</strong> Move left
-          </li>
-          <li>
-            <img
-              src="./Controls-img/letter-s.png"
-              alt="S key"
-              class="key-image"
-            />
-            <strong>S key:</strong> Move backward
-          </li>
-          <li>
-            <img
-              src="./Controls-img/letter-d.png"
-              alt="D key"
-              class="key-image"
-            />
-            <strong>D key:</strong> Move right
-          </li>
-          <li>
-            <img
-              src="./Controls-img/space.png"
-              alt="Space bar"
-              class="key-image"
-            />
-            <strong>Space bar:</strong> Interact
-          </li>
-        </ul>
-        <p>
-          Get to the door and try pressing the <strong>W key</strong> to enter
-          the building.
-        </p>
-        <p>
-          Get to the exit and try pressing the <strong>S key</strong> to exit
-          the building.
-        </p>
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/gameCanvas.css" />
+    <link rel="stylesheet" href="styles/md-gameCanvas.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body id="gameDiv">
+    <div style="display: inline-block; position: relative">
+      <div id="overlappingDiv">
+        <div id="overlappingDivText"></div>
       </div>
-    </div>
-  </div>
 
-  <div id="userInterface">
-    <div id="map">Pellet Town</div>
-    <div id="Scorebar"><div id="score"></div></div>
-    <div>
-      <div class="helper-buttons">
-        <div id="saveNexit">
-          <ion-icon
-            name="checkmark-done-outline"
-            style="font-size: 2em"
-          ></ion-icon>
+      <canvas id="game"></canvas>
+      <div id="orientation-overlay"></div>
+      <div id="characterDialogueBox"></div>
+
+      <div class="touch-controls">
+        <div class="touch-button" id="move-up">W</div>
+        <div class="touch-button" id="move-left">A</div>
+        <div class="touch-button" id="move-down">S</div>
+        <div class="touch-button" id="move-right">D</div>
+      </div>
+      <div class="interact-controls">
+        <div class="interact-button" id="interact-button">Space</div>
+      </div>
+
+      <div class="saveNexit-container">
+        <div id="closeSaveNexit">
+          <ion-icon name="close" style="font-size: 2em"></ion-icon>
         </div>
-        <div id="controls">
-          <ion-icon name="game-controller" style="font-size: 2em"></ion-icon>
-        </div>
-        <div id="leaderboard">
-          <ion-icon
-            name="podium"
-            style="font-size: 2em; color: gold"
-          ></ion-icon>
+        <div id="saveNexitContent">
+          <button onclick="saveNexit()">Save & Exit</button>
         </div>
       </div>
 
-      <div id="dialogueBox"></div>
+      <div class="leaderboard-container">
+        <div id="closeLeaderboard">
+          <ion-icon name="close" style="font-size: 2em"></ion-icon>
+        </div>
+        <div id="leaderboardContent"></div>
+      </div>
+
+      <div class="controls-container">
+        <div id="closeControls">
+          <ion-icon name="close" style="font-size: 2em"></ion-icon>
+        </div>
+        <div id="controlsContent">
+          <div class="game-controls">
+            <h2>Game Controls</h2>
+            <ul>
+              <li>
+                <img
+                  src="./Controls-img/letter-w.png"
+                  alt="W key"
+                  class="key-image"
+                />
+                <strong>W key:</strong> Move forward
+              </li>
+              <li>
+                <img
+                  src="./Controls-img/letter-a.png"
+                  alt="A key"
+                  class="key-image"
+                />
+                <strong>A key:</strong> Move left
+              </li>
+              <li>
+                <img
+                  src="./Controls-img/letter-s.png"
+                  alt="S key"
+                  class="key-image"
+                />
+                <strong>S key:</strong> Move backward
+              </li>
+              <li>
+                <img
+                  src="./Controls-img/letter-d.png"
+                  alt="D key"
+                  class="key-image"
+                />
+                <strong>D key:</strong> Move right
+              </li>
+              <li>
+                <img
+                  src="./Controls-img/space.png"
+                  alt="Space bar"
+                  class="key-image"
+                />
+                <strong>Space bar:</strong> Interact
+              </li>
+            </ul>
+            <p>
+              Get to the door and try pressing the <strong>W key</strong> to
+              enter the building.
+            </p>
+            <p>
+              Get to the exit and try pressing the <strong>S key</strong> to
+              exit the building.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="userInterface">
+        <div id="map">Home</div>
+        <div id="Scorebar"><div id="Score"></div></div>
+        <div class="helper-buttons">
+          <div id="saveNexit">
+            <ion-icon
+              name="checkmark-done-outline"
+              style="font-size: 2em"
+            ></ion-icon>
+          </div>
+          <div id="controls">
+            <ion-icon name="game-controller" style="font-size: 2em"></ion-icon>
+          </div>
+          <div id="leaderboard">
+            <ion-icon
+              name="podium"
+              style="font-size: 2em; color: gold"
+            ></ion-icon>
+          </div>
+        </div>
+
+        <div id="dialogueBox"></div>
+      </div>
+      <!-- utilities -->
+      <script src="utils-js/utils.js"></script>
+      <script src="utils-js/classes.js"></script>
+
+      <!-- home assets -->
+      <script src="../Tiled-Game-Data/home/Homecollisions.js"></script>
+      <script src="../Tiled-Game-Data/home/Homecharacters.js"></script>
+      <script src="../Tiled-Game-Data/home/HomeScenes.js"></script>
+
+      <!-- shop assets -->
+      <script src="../Tiled-Game-Data/shop/Shopcollisions.js"></script>
+      <script src="../Tiled-Game-Data/shop/Shopcharacters.js"></script>
+      <script src="../Tiled-Game-Data/shop/Shopscenes.js"></script>
+
+      <!-- CDN -->
+      <script
+        type="module"
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+      ></script>
+      <script
+        nomodule
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+      ></script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
+        integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      ></script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
+        integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      ></script>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+      <!-- game logic -->
+      <script src="../config.js"></script>
+      <script src="index.js"></script>
+      <script src="js/gameCanvas.js"></script>
     </div>
-  </div>
-  <!-- utilities -->
-  <script src="utils-js/utils.js"></script>
-  <script src="utils-js/classes.js"></script>
-
-  <!-- home assets -->
-  <script src="../Tiled-Game-Data/home/Homecollisions.js"></script>
-  <script src="../Tiled-Game-Data/home/Homecharacters.js"></script>
-  <script src="../Tiled-Game-Data/home/HomeScenes.js"></script>
-
-  <!-- shop assets -->
-  <script src="../Tiled-Game-Data/shop/Shopcollisions.js"></script>
-  <script src="../Tiled-Game-Data/shop/Shopcharacters.js"></script>
-  <script src="../Tiled-Game-Data/shop/Shopscenes.js"></script>
-
-  <!-- CDN -->
-  <script
-    type="module"
-    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-  ></script>
-  <script
-    nomodule
-    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-  ></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
-    integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  ></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
-    integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  ></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-  <!-- game logic -->
-  <script src="index.js"></script>
-  <script src="js/gameCanvas.js"></script>
-</div>
+  </body>
+</html>

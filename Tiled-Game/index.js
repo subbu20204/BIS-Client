@@ -1,11 +1,22 @@
+const gameplay = document.getElementById("gameDiv");
+const gameCanvas = document.getElementById("game");
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
-let currentLevel = "home";
+const aspectRatio = 11 / 10;
+let scaleFactorX, scaleFactorY;
 
 canvas.width = window.innerWidth * 0.9;
 canvas.height = window.innerHeight * 0.95;
 
-const Username = localStorage.getItem("UserName");
+scaleFactor = canvas.width / 1382;
+context.scale(scaleFactor, scaleFactor);
+
+if (window.innerWidth < window.innerHeight) {
+  handleOrientationChange();
+}
+window.addEventListener("resize", handleOrientationChange);
+window.addEventListener("orientationchange", handleOrientationChange);
+gameCanvas.addEventListener("click", toggleFullScreen);
 
 const images = {
   home: loadImage("../Tiled-Game-Asset/Home/HomeTown.png"),
@@ -31,10 +42,12 @@ function loadImage(src) {
   return img;
 }
 
+let currentLevel = "home";
 let Userscore;
 let collisionMap, sceneMap, characterMap, scale;
 let boundaries, characters, scenes, movables, renderables;
 let offset, background, foreground;
+const Username = localStorage.getItem("UserName");
 
 const player = new Sprite({
   position: {
@@ -60,10 +73,16 @@ const levels = {
       resetLevelState();
 
       populateMap(Homecollisions, collisionsMap, 93);
+
       populateMap(HomescenesChange, scenesMap, 93);
       populateMap(HomecharactersMapData, charactersMap, 93);
 
-      const offset = { x: -350, y: -400 };
+      if (canvas.width > 1200) {
+        offset = { x: -450, y: -420 };
+      } else {
+        offset = { x: -700, y: -500 };
+      }
+
       scale = 3;
 
       initializeBoundaries(collisionsMap, offset, [3256, 2684357816], scale);
@@ -80,13 +99,13 @@ const levels = {
             "<h3>I didn’t get electrocuted. Let’s open the vehicle and check it out further.</h3>",
             `<h3>Identify the correct standard for preventing electric shock:</h3>`,
             `<div class=\"container\"><div class=\"grid\">
-              <div class=\"option\" onclick=\"selectOption(this)\">1. Use of barriers and enclosures</div>
-              <div class=\"option\" onclick=\"selectOption(this)\">2. Insulation on all exposed parts</div>
-              <div class=\"option\" onclick=\"selectOption(this)\">3. Secure connection of conductive parts to the electric chassis</div>
-              <div class=\"option\" onclick=\"selectOption(this)\">4. All of the above</div>
+            <div class=\"option\" onclick=\"selectOption(this)\">1. Use of barriers and enclosures</div>
+            <div class=\"option\" onclick=\"selectOption(this)\">2. Insulation on all exposed parts</div>
+            <div class=\"option\" onclick=\"selectOption(this)\">3. Secure connection of conductive parts to the electric chassis</div>
+            <div class=\"option\" onclick=\"selectOption(this)\">4. All of the above</div>
             </div><div class=\"submit-bar\">
               <button class=\"submit-button\" onclick=\"submitAnswer('4. All of the above',3256)\">Submit</button>
-            </div></div>`,
+              </div></div>`,
           ],
         },
         2272: {
@@ -100,13 +119,13 @@ const levels = {
             "<h3>This seems to be a Type-2 paint.</h3>",
             `<h3>Considering this is a city road, which type of paint should be used to meet the standards?</h3>`,
             `<div class=\"container\"><div class=\"grid\">
-              <div class=\"option\" onclick=\"selectOption(this)\">1. Type-1: Light-duty paint.</div>
-              <div class=\"option\" onclick=\"selectOption(this)\">2. Type-2: Heavy-duty paint.</div>
-              <div class=\"option\" onclick=\"selectOption(this)\">3. Either Type-1 or Type-2 can be used.</div>
+            <div class=\"option\" onclick=\"selectOption(this)\">1. Type-1: Light-duty paint.</div>
+            <div class=\"option\" onclick=\"selectOption(this)\">2. Type-2: Heavy-duty paint.</div>
+            <div class=\"option\" onclick=\"selectOption(this)\">3. Either Type-1 or Type-2 can be used.</div>
               <div class=\"option\" onclick=\"selectOption(this)\">4. No specific type is required.</div>
-            </div><div class=\"submit-bar\">
+              </div><div class=\"submit-bar\">
               <button class=\"submit-button\" onclick=\"submitAnswer('1. Type-1: Light-duty paint.',2272)\">Submit</button>
-            </div></div>`,
+              </div></div>`,
           ],
         },
         1989: {
@@ -125,9 +144,9 @@ const levels = {
               <div class=\"option\" onclick=\"selectOption(this)\">2. Yellow background with a black arrow.</div>
               <div class=\"option\" onclick=\"selectOption(this)\">3. Blue background with a white arrow.</div>
               <div class=\"option\" onclick=\"selectOption(this)\">4. No markings are required.</div>
-            </div><div class=\"submit-bar\">
+              </div><div class=\"submit-bar\">
               <button class=\"submit-button\" onclick=\"submitAnswer('2. Yellow background with a black arrow.', 4001)\">Submit</button>
-            </div></div>`,
+              </div></div>`,
 
             "<h3>High Voltage cables are covered with orange insulation in order to differentiate them from other wires.</h3>",
             `<h3>Why are High Voltage cables covered in orange insulation?</h3>`,
@@ -136,9 +155,9 @@ const levels = {
               <div class=\"option\" onclick=\"selectOption(this)\">2. To prevent overheating during operation.</div>
               <div class=\"option\" onclick=\"selectOption(this)\">3. To visually differentiate them from other cables.</div>
               <div class=\"option\" onclick=\"selectOption(this)\">4. To comply with aesthetic design standards.</div>
-            </div><div class=\"submit-bar\">
+              </div><div class=\"submit-bar\">
               <button class=\"submit-button\" onclick=\"submitAnswer('3. To visually differentiate them from other cables.', 4002)\">Submit</button>
-            </div></div>`,
+              </div></div>`,
           ],
         },
       });
@@ -279,6 +298,34 @@ function initializeSprites(offset, backgroundImage, foregroundImage) {
   renderables = [background, ...boundaries, ...characters, player, foreground];
 }
 
+let touchInput = null;
+
+document.getElementById("move-up").ontouchstart = () => {
+  touchInput = "w";
+};
+document.getElementById("move-left").ontouchstart = () => {
+  touchInput = "a";
+};
+document.getElementById("move-down").ontouchstart = () => {
+  touchInput = "s";
+};
+document.getElementById("move-right").ontouchstart = () => {
+  touchInput = "d";
+};
+
+document.getElementById("move-up").ontouchend = () => {
+  touchInput = null;
+};
+document.getElementById("move-left").ontouchend = () => {
+  touchInput = null;
+};
+document.getElementById("move-down").ontouchend = () => {
+  touchInput = null;
+};
+document.getElementById("move-right").ontouchend = () => {
+  touchInput = null;
+};
+
 function animate() {
   const animationId = window.requestAnimationFrame(animate);
 
@@ -295,13 +342,13 @@ function animate() {
   if (isSceneChanging) return;
   player.animate = false;
 
-  if (keys.w.pressed && lastKey === "w") {
+  if ((keys.w.pressed && lastKey === "w") || touchInput === "w") {
     handlePlayerMovement("w", { x: 0, y: 3 }, player.sprites.up);
-  } else if (keys.a.pressed && lastKey === "a") {
+  } else if ((keys.a.pressed && lastKey === "a") || touchInput === "a") {
     handlePlayerMovement("a", { x: 3, y: 0 }, player.sprites.left);
-  } else if (keys.s.pressed && lastKey === "s") {
+  } else if ((keys.s.pressed && lastKey === "s") || touchInput === "s") {
     handlePlayerMovement("s", { x: 0, y: -3 }, player.sprites.down);
-  } else if (keys.d.pressed && lastKey === "d") {
+  } else if ((keys.d.pressed && lastKey === "d") || touchInput === "d") {
     handlePlayerMovement("d", { x: -3, y: 0 }, player.sprites.right);
   }
 }
@@ -311,6 +358,9 @@ animate();
 let lastKey = "";
 window.addEventListener("keydown", handleKeyDown);
 window.addEventListener("keyup", handleKeyUp);
+
+const interactButton = document.getElementById("interact-button");
+interactButton.ontouchstart = beginInteraction;
 
 function handleKeyDown(e) {
   if (player.isInteracting) {
@@ -357,6 +407,10 @@ function handleKeyUp(e) {
       break;
   }
 }
+
+document.getElementById("dialogue-next-button").ontouchstart = () => {
+  handleDialogueInteraction(" ");
+};
 
 function handleDialogueInteraction(key) {
   if (key === " ") {

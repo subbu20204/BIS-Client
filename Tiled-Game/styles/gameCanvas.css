@@ -265,3 +265,52 @@ button:hover {
 .game-controls strong {
   color: #222;
 }
+
+#orientation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  z-index: 9999;
+  text-align: center;
+}
+
+#overlappingDiv {
+  background-color: wheat;
+  position: absolute;
+  top: 150px;
+  right: 50px;
+  bottom: 50px;
+  left: 50px;
+  opacity: 0;
+  color: aliceblue;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 10;
+}
+
+#characterDialogueBox {
+  background-color: white;
+  height: 180px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 4px solid black;
+  display: none;
+  padding: 12px;
+}
+
+.touch-controls {
+  display: none;
+}
